@@ -248,3 +248,28 @@ cat /data/logs/letsencrypt.log
 
 Common issue:
 - Port 80 not open in AWS Security Group.
+
+
+## Optional: Add Swap Memory to EC2
+
+If n8n crashes due to low memory (`OOM killer` / exit code `137`), add swap space:
+
+```bash
+sudo fallocate -l 2G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+```
+
+Verify:
+
+```bash
+free -h
+```
+
+You should see:
+
+```text
+Swap: 2.0Gi
+```
